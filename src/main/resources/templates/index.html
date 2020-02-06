@@ -1,10 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>论坛</title>
+    <title>清风逐月论坛</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/css/index.css">
+
+    <!-- 引入Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 先引入Vue -->
+    <script src="/js/vue.js"></script>
+
+
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
 </head>
 <body>
-<h2>sdskd</h2>
+
+<el-container style="height: 1000px; border-top: 3px solid #009a61">
+
+    <el-header>
+        <el-row>
+            <el-col :span="18" :offset="3">
+                <el-row>
+                    <el-col :span="14">
+                        <el-menu
+                                :default-active="activeIndex2"
+                                class="el-menu-demo"
+                                mode="horizontal"
+                                @select="handleSelect"
+                                background-color="#fafafa"
+                                text-color="#757575"
+                                active-text-color="#009a61">
+
+                            <el-menu-item>清风逐月论坛</el-menu-item>
+                            <el-menu-item index="1">首页</el-menu-item>
+
+                            <el-menu-item index="2">提问</el-menu-item>
+
+                            <el-menu-item>
+                                <el-input
+                                        placeholder="搜索问题或关键字"
+                                        v-model="input">
+                                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                                </el-input>
+                            </el-menu-item>
+
+                        </el-menu>
+                    </el-col>
+                    <el-col :span="10">
+                        <div style="height:60px;text-align: right;">
+
+                                <el-badge v-if="0" :value="200" :max="99" class="item" >
+                                    <el-button size="small">消息</el-button>
+                                </el-badge>
+
+                            <a href="/login"><el-button class="dl" v-if="1" >登录</el-button></a>
+
+                            <el-dropdown v-if="0" class="tou" style="float: right;">
+                            <span class="el-dropdown-link">
+                                    <el-avatar :size="50" :src="circleUrl"></el-avatar>
+                            </span>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item><i class="el-icon-user-solid"></i> 我的主页</el-dropdown-item>
+                                    <el-dropdown-item><i class="el-icon-edit-outline"></i>我的问题</el-dropdown-item>
+                                    <el-dropdown-item><i class="el-icon-chat-dot-round"></i> 最新回复</el-dropdown-item>
+                                    <el-dropdown-item><i class="el-icon-switch-button"></i>退出</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </div>
+                    </el-col>
+                </el-row>
+
+            </el-col>
+        </el-row>
+    </el-header>
+
+    <el-main>Main</el-main>
+
+    <el-footer>Footer</el-footer>
+</el-container>
+
 </body>
+
+<script>
+    new Vue({
+        el: "el-container",
+        data() {
+            return {
+                input: "",
+                activeIndex2: '1',
+                circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+
+            };
+        },
+
+    })
+</script>
 </html>

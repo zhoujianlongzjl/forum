@@ -23,13 +23,15 @@
 ```sql
 create table user
 (
-	id int auto_increment
-		primary key,
-	account_id varchar(100) null,
-	name varchar(50) null,
-	token char(36) null,
-	gmt_create bigint null,
-	gmt_modified bigint null
+    id           bigint auto_increment
+        primary key,
+    name         varchar(50)  null comment '用户名',
+    password     varchar(50)  null comment '密码',
+    token        varchar(50)  null,
+    gmt_create   bigint       null comment '创建时间',
+    gmt_modified bigint       null comment '修改时间',
+    avatar_url   varchar(100) null comment '头像',
+    bio          varchar(256) null comment '个人简介'
 );
 ```
 ```text
