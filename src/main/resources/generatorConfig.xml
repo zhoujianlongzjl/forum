@@ -50,6 +50,7 @@
 
         <!-- 列出要生成代码的所有表 -->
         <table  tableName="user" domainObjectName="User" ></table>
+        <table  tableName="question" domainObjectName="Question" ></table>
 
     </context>
 </generatorConfiguration>

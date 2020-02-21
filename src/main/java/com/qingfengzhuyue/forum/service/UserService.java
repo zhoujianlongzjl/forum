@@ -10,9 +10,24 @@ import java.util.List;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserMapper userMapper;
 
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+    public List<User> findUser(User user) {
+
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andNameEqualTo(user.getName())
+                .andPasswordEqualTo(user.getPassword());
+        List<User> users = userMapper.selectByExample(userExample);
+
+        return users;
+    }
 
     public void createOrUpdate(User user) {
         UserExample userExample = new UserExample();
@@ -39,5 +54,14 @@ public class UserService {
             userMapper.updateByExampleSelective(updateUser, example);
 
         }
+    }
+
+
+    public List<User> findOneUser(String token) {
+        UserExample example = new UserExample();
+        example.createCriteria()
+                .andTokenEqualTo(token);
+        List<User> users = userMapper.selectByExample(example);
+        return users;
     }
 }
