@@ -37,6 +37,7 @@ public class QuestionController {
         return CommonResult.success(questionDTOList);
     }
 
+
     @CrossOrigin
     @RequestMapping(value = "/api/q/{id}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -46,6 +47,8 @@ public class QuestionController {
         questionService.incView(id);
         return CommonResult.success(questionDTO);
     }
+
+    //点赞
     @CrossOrigin
     @RequestMapping(value = "/api/q/{id}/like", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody

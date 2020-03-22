@@ -40,19 +40,19 @@
             </exclusions>
         </dependency>
 
-<!--        mysql数据库驱动-->
+        <!--        mysql数据库驱动-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        mybatis-->
+        <!--        mybatis-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.0</version>
         </dependency>
-<!--分页插件pagehelper -->
+        <!--分页插件pagehelper -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -87,6 +87,13 @@
             <version>3.9</version>
         </dependency>
 
+        <!-- 腾讯云 -->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>5.6.15</version>
+        </dependency>
+       
     </dependencies>
 
     <build>
@@ -96,7 +103,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-<!--              自动生成Mybatis代码-->
+            <!--              自动生成Mybatis代码-->
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>

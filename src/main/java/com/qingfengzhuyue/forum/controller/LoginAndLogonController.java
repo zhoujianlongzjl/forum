@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.UUID;
@@ -22,14 +23,14 @@ public class LoginAndLogonController {
     @RequestMapping(value = "/api/login", method = RequestMethod.POST,  produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult login(@RequestBody User user, HttpServletResponse response) {
-
         List<User> userList = userService.findUser(user);
         if (userList.size()!=0){
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             userService.createOrUpdate(user);
 
-            response.addCookie(new Cookie("token",token));
+            Cookie cookie = new Cookie("token", token);
+            response.addCookie(cookie);
 
             List<User> users = userService.findUser(user);
             User dbuser=users.get(0);
@@ -50,7 +51,8 @@ public class LoginAndLogonController {
             user.setToken(token);
             userService.createOrUpdate(user);
 
-            response.addCookie(new Cookie("token",token));
+            Cookie cookie = new Cookie("token", token);
+            response.addCookie(cookie);
 
             List<User> users = userService.findUser(user);
             User dbuser=users.get(0);
@@ -58,13 +60,29 @@ public class LoginAndLogonController {
         }else {
             return CommonResult.failed("用户已存在！");
         }
-
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/api/admin/logon", method = RequestMethod.POST,  produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public CommonResult adminLogon(@RequestBody User user, HttpServletResponse response) {
+
+        List<User> userList = userService.findUser(user);
+        if (userList.size()==0){
+
+            userService.createOrUpdate(user);
+
+            return CommonResult.success("");
+        }else {
+            return CommonResult.failed("用户已存在！");
+        }
+
+    }
+    @CrossOrigin
     @GetMapping("/api/logout")
     @ResponseBody
-    public CommonResult logout(HttpServletResponse response){
+    public CommonResult logout(HttpServletRequest request, HttpServletResponse response){
+        request.getSession().removeAttribute("user");
         Cookie cookie = new Cookie("token",null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);

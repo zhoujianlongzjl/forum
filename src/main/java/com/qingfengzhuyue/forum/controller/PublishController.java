@@ -1,12 +1,10 @@
 package com.qingfengzhuyue.forum.controller;
 
 import com.qingfengzhuyue.forum.cache.TagCache;
-import com.qingfengzhuyue.forum.dto.QuestionDTO;
 import com.qingfengzhuyue.forum.model.Question;
 import com.qingfengzhuyue.forum.result.CommonResult;
 import com.qingfengzhuyue.forum.result.ResultCode;
 import com.qingfengzhuyue.forum.service.QuestionService;
-import com.qingfengzhuyue.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

@@ -10,6 +10,7 @@
     <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified" />
     <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
     <result column="bio" jdbcType="VARCHAR" property="bio" />
+    <result column="type" jdbcType="BIGINT" property="type" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, password, token, gmt_create, gmt_modified, avatar_url, bio
+    id, name, password, token, gmt_create, gmt_modified, avatar_url, bio, type
   </sql>
   <select id="selectByExample" parameterType="com.qingfengzhuyue.forum.model.UserExample" resultMap="BaseResultMap">
     select
@@ -105,10 +106,12 @@
   <insert id="insert" parameterType="com.qingfengzhuyue.forum.model.User">
     insert into user (id, name, password, 
       token, gmt_create, gmt_modified, 
-      avatar_url, bio)
+      avatar_url, bio, type
+      )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{token,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=BIGINT}, #{gmtModified,jdbcType=BIGINT}, 
-      #{avatarUrl,jdbcType=VARCHAR}, #{bio,jdbcType=VARCHAR})
+      #{avatarUrl,jdbcType=VARCHAR}, #{bio,jdbcType=VARCHAR}, #{type,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.qingfengzhuyue.forum.model.User">
     insert into user
@@ -137,6 +140,9 @@
       <if test="bio != null">
         bio,
       </if>
+      <if test="type != null">
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -162,6 +168,9 @@
       </if>
       <if test="bio != null">
         #{bio,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -198,6 +207,9 @@
       <if test="record.bio != null">
         bio = #{record.bio,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +224,8 @@
       gmt_create = #{record.gmtCreate,jdbcType=BIGINT},
       gmt_modified = #{record.gmtModified,jdbcType=BIGINT},
       avatar_url = #{record.avatarUrl,jdbcType=VARCHAR},
-      bio = #{record.bio,jdbcType=VARCHAR}
+      bio = #{record.bio,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +254,9 @@
       <if test="bio != null">
         bio = #{bio,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        type = #{type,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -252,7 +268,8 @@
       gmt_create = #{gmtCreate,jdbcType=BIGINT},
       gmt_modified = #{gmtModified,jdbcType=BIGINT},
       avatar_url = #{avatarUrl,jdbcType=VARCHAR},
-      bio = #{bio,jdbcType=VARCHAR}
+      bio = #{bio,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.qingfengzhuyue.forum.model.UserExample" resultMap="BaseResultMap">

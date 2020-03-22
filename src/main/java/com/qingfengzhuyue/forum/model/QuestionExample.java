@@ -663,6 +663,66 @@ public class QuestionExample {
             addCriterion("tag not between", value1, value2, "tag");
             return (Criteria) this;
         }
+
+        public Criteria andShieldIsNull() {
+            addCriterion("shield is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldIsNotNull() {
+            addCriterion("shield is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldEqualTo(Long value) {
+            addCriterion("shield =", value, "shield");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldNotEqualTo(Long value) {
+            addCriterion("shield <>", value, "shield");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldGreaterThan(Long value) {
+            addCriterion("shield >", value, "shield");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldGreaterThanOrEqualTo(Long value) {
+            addCriterion("shield >=", value, "shield");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldLessThan(Long value) {
+            addCriterion("shield <", value, "shield");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldLessThanOrEqualTo(Long value) {
+            addCriterion("shield <=", value, "shield");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldIn(List<Long> values) {
+            addCriterion("shield in", values, "shield");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldNotIn(List<Long> values) {
+            addCriterion("shield not in", values, "shield");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldBetween(Long value1, Long value2) {
+            addCriterion("shield between", value1, value2, "shield");
+            return (Criteria) this;
+        }
+
+        public Criteria andShieldNotBetween(Long value1, Long value2) {
+            addCriterion("shield not between", value1, value2, "shield");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
