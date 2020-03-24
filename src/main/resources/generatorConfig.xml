@@ -9,6 +9,9 @@
         
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
 
+        <!--生成mapper.xml时覆盖原文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true" />
@@ -52,6 +55,7 @@
         <table  tableName="user" domainObjectName="User" ></table>
         <table  tableName="question" domainObjectName="Question" ></table>
         <table  tableName="comment" domainObjectName="Comment" ></table>
+        <table  tableName="tag" domainObjectName="Tag" ></table>
 
     </context>
 </generatorConfiguration>

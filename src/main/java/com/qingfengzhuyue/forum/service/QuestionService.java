@@ -33,6 +33,7 @@ public class QuestionService {
             question.setCommentCount(0);
             question.setViewCount(0);
             question.setLikeCount(0);
+            question.setShield(0);
             questionMapper.insert(question);
         } else {
             //更新
@@ -50,31 +51,66 @@ public class QuestionService {
         }
     }
 
-    public List<QuestionDTO> list(Integer pageNum, Integer pageSize) {
-        QuestionExample example = new QuestionExample();
-        example.createCriteria()
-                .andIdGreaterThanOrEqualTo(0L);
-        example.setOrderByClause("gmt_create desc");
-        PageHelper.startPage(pageNum, pageSize);
-        List<Question> questionList = questionMapper.selectByExample(example);
+    public List<QuestionDTO> list(Integer pageNum, Integer pageSize,Long userType) {
+        if (userType != 0){
+            // 管理员查询
+            QuestionExample example = new QuestionExample();
+            example.createCriteria()
+                    .andIdGreaterThanOrEqualTo(0L);
+            example.setOrderByClause("gmt_create desc");
+            PageHelper.startPage(pageNum, pageSize);
+            List<Question> questionList = questionMapper.selectByExample(example);
 
-        List<QuestionDTO> questionDTOList = new ArrayList<>();
-        for (Question question : questionList) {
-            User user = userMapper.selectByPrimaryKey(question.getCreator());
-            QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(question, questionDTO);
-            questionDTO.setUser(user);
-            questionDTOList.add(questionDTO);
+            List<QuestionDTO> questionDTOList = new ArrayList<>();
+            for (Question question : questionList) {
+                User user = userMapper.selectByPrimaryKey(question.getCreator());
+                QuestionDTO questionDTO = new QuestionDTO();
+                BeanUtils.copyProperties(question, questionDTO);
+                questionDTO.setUser(user);
+                questionDTOList.add(questionDTO);
+            }
+            return questionDTOList;
+        } else {
+            // 普通用户查询
+            QuestionExample example = new QuestionExample();
+            example.createCriteria()
+                    .andIdGreaterThanOrEqualTo(0L)
+                    .andShieldEqualTo(0);
+            example.setOrderByClause("gmt_create desc");
+            PageHelper.startPage(pageNum, pageSize);
+            List<Question> questionList = questionMapper.selectByExample(example);
+
+            List<QuestionDTO> questionDTOList = new ArrayList<>();
+            for (Question question : questionList) {
+                User user = userMapper.selectByPrimaryKey(question.getCreator());
+                QuestionDTO questionDTO = new QuestionDTO();
+                BeanUtils.copyProperties(question, questionDTO);
+                questionDTO.setUser(user);
+                questionDTOList.add(questionDTO);
+            }
+            return questionDTOList;
         }
-        return questionDTOList;
+
     }
 
-    public Long countQuestion() {
-        QuestionExample example = new QuestionExample();
-        example.createCriteria()
-                .andIdGreaterThanOrEqualTo(0L);
-        long total = questionMapper.countByExample(example);
-        return total;
+    public Long countQuestion(Long userType) {
+        if (userType != 0){
+            // 管理员
+            QuestionExample example = new QuestionExample();
+            example.createCriteria()
+                    .andIdGreaterThanOrEqualTo(0L);
+            long total = questionMapper.countByExample(example);
+            return total;
+        } else {
+            // 普通用户
+            QuestionExample example = new QuestionExample();
+            example.createCriteria()
+                    .andIdGreaterThanOrEqualTo(0L)
+                    .andShieldEqualTo(0);
+            long total = questionMapper.countByExample(example);
+            return total;
+        }
+
     }
 
     public QuestionDTO findById(Long id) {
@@ -106,5 +142,20 @@ public class QuestionService {
         }else {
             questionExtMapper.redLike(question);
         }
+    }
+
+
+    public void shield(Long id, Integer shield) {
+        Question question = questionMapper.selectByPrimaryKey(id);
+        question.setShield(shield);
+        QuestionExample example = new QuestionExample();
+        example.createCriteria()
+                .andIdEqualTo(question.getId());
+        questionMapper.updateByExampleSelective(question, example);
+
+    }
+
+    public void delete(Long id) {
+        questionMapper.deleteByPrimaryKey(id);
     }
 }

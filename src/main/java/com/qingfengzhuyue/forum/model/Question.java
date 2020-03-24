@@ -19,7 +19,7 @@ public class Question {
 
     private String tag;
 
-    private Long shield;
+    private Integer shield;
 
     private String description;
 
@@ -95,11 +95,11 @@ public class Question {
         this.tag = tag == null ? null : tag.trim();
     }
 
-    public Long getShield() {
+    public Integer getShield() {
         return shield;
     }
 
-    public void setShield(Long shield) {
+    public void setShield(Integer shield) {
         this.shield = shield;
     }
 
