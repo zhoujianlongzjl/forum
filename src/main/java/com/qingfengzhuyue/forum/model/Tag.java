@@ -5,7 +5,11 @@ public class Tag {
 
     private String name;
 
-    private String describe;
+    private String description;
+
+    private Long gmtCreate;
+
+    private Long gmtModified;
 
     public Long getId() {
         return id;
@@ -23,11 +27,27 @@ public class Tag {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
+    }
+
+    public Long getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Long gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Long getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Long gmtModified) {
+        this.gmtModified = gmtModified;
     }
 }

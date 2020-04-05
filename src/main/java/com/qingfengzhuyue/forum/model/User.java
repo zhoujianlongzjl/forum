@@ -17,7 +17,7 @@ public class User {
 
     private String bio;
 
-    private Long type;
+    private Integer type;
 
     public Long getId() {
         return id;
@@ -83,11 +83,11 @@ public class User {
         this.bio = bio == null ? null : bio.trim();
     }
 
-    public Long getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Long type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 }

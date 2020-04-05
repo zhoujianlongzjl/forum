@@ -2,12 +2,15 @@ package com.qingfengzhuyue.forum.controller;
 
 import com.qingfengzhuyue.forum.cache.TagCache;
 import com.qingfengzhuyue.forum.model.Question;
+import com.qingfengzhuyue.forum.model.Tag;
 import com.qingfengzhuyue.forum.result.CommonResult;
 import com.qingfengzhuyue.forum.result.ResultCode;
 import com.qingfengzhuyue.forum.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Controller
@@ -21,6 +24,14 @@ public class PublishController {
     @ResponseBody
     public CommonResult getTagDTO() {
         return CommonResult.success(TagCache.get());
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/api/publish/getTags", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public CommonResult getTags() {
+        List<Tag> tags = questionService.getTags();
+        return CommonResult.success(tags);
     }
 
     @CrossOrigin

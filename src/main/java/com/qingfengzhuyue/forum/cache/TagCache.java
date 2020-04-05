@@ -22,12 +22,12 @@ public class TagCache {
 
         TagDTO server = new TagDTO();
         server.setCategoryName("服务器");
-        server.setTags(Arrays.asList("nux", "unix", "ubuntu", "windows-server", "centos", "负载均衡", "缓存", "apache", "nginx"));
+        server.setTags(Arrays.asList("linux", "unix", "ubuntu", "windows-server", "centos", "负载均衡", "缓存", "apache", "nginx"));
         tagDTOS.add(server);
 
         TagDTO db = new TagDTO();
         db.setCategoryName("数据库");
-        db.setTags(Arrays.asList("mysql", "nsqlite", "noracle", "sql", "nosql", "redis", "mongodb", "memcached", "postgresql"));
+        db.setTags(Arrays.asList("mysql", "sqlite", "oracle", "sql", "nosql", "redis", "mongodb", "memcached", "postgresql"));
         tagDTOS.add(db);
 
         TagDTO tool = new TagDTO();

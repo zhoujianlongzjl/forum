@@ -1,9 +1,10 @@
 package com.qingfengzhuyue.forum.service;
 
 import com.github.pagehelper.PageHelper;
-import com.qingfengzhuyue.forum.dto.QuestionQueryDTO;
 import com.qingfengzhuyue.forum.mapper.QuestionExtMapper;
+import com.qingfengzhuyue.forum.mapper.QuestionMapper;
 import com.qingfengzhuyue.forum.model.Question;
+import com.qingfengzhuyue.forum.model.QuestionExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,21 +14,116 @@ import java.util.List;
 public class SearchService {
 
     @Autowired
-    private QuestionExtMapper questionExtMapper;
-    public List<Question> selectBySearch(String search,Integer pageNum,Integer pageSize) {
+    private QuestionMapper questionMapper;
 
-        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
-        questionQueryDTO.setSearch(search);
-        PageHelper.startPage(pageNum, pageSize);
-        List<Question> questionList = questionExtMapper.selectBySearch(questionQueryDTO);
+    public List<Question> selectBySearch(String search, Integer pageNum, Integer pageSize, Integer userType, Integer searchType) {
 
-        return questionList;
+        if (searchType == 0) {
+            // 根据标题搜索
+            if (userType != 0) {
+                // 管理员查询
+                QuestionExample example = new QuestionExample();
+                QuestionExample.Criteria criteria = example.createCriteria();
+                search = search.replace(' ', '%');
+                search = "%" + search + "%";
+                criteria.andTitleLike(search);
+                example.setOrderByClause("gmt_create desc");
+                PageHelper.startPage(pageNum, pageSize);
+                List<Question> questionList = questionMapper.selectByExample(example);
+                return questionList;
+            } else {
+                // 普通用户查询
+                QuestionExample example = new QuestionExample();
+                QuestionExample.Criteria criteria = example.createCriteria();
+                search = search.replace(' ', '%');
+                search = "%" + search + "%";
+                criteria.andTitleLike(search)
+                        .andExamineEqualTo(1)
+                        .andShieldEqualTo(0);
+                example.setOrderByClause("gmt_create desc");
+                PageHelper.startPage(pageNum, pageSize);
+                List<Question> questionList = questionMapper.selectByExample(example);
+                return questionList;
+            }
+        } else {
+            // 根据标签搜索
+            if (userType != 0) {
+                // 管理员查询
+                QuestionExample example = new QuestionExample();
+                QuestionExample.Criteria criteria = example.createCriteria();
+                search = search.replace(' ', '%');
+                search = "%" + search + "%";
+                criteria.andTagLike(search);
+                example.setOrderByClause("gmt_create desc");
+                PageHelper.startPage(pageNum, pageSize);
+                List<Question> questionList = questionMapper.selectByExample(example);
+                return questionList;
+            } else {
+                // 普通用户查询
+                QuestionExample example = new QuestionExample();
+                QuestionExample.Criteria criteria = example.createCriteria();
+                search = search.replace(' ', '%');
+                search = "%" + search + "%";
+                criteria.andTagLike(search)
+                        .andExamineEqualTo(1)
+                        .andShieldEqualTo(0);
+                example.setOrderByClause("gmt_create desc");
+                PageHelper.startPage(pageNum, pageSize);
+                List<Question> questionList = questionMapper.selectByExample(example);
+                return questionList;
+            }
+        }
+
     }
 
-    public Integer countBySearch(String search) {
-        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
-        questionQueryDTO.setSearch(search);
-        Integer integer = questionExtMapper.countBySearch(questionQueryDTO);
-        return integer;
+    public Long countBySearch(String search, Integer userType, Integer searchType) {
+
+        if (searchType == 0) {
+            // 根据标题搜索
+            if (userType != 0) {
+                // 管理员查询
+                QuestionExample example = new QuestionExample();
+                QuestionExample.Criteria criteria = example.createCriteria();
+                search = search.replace(' ', '%');
+                search = "%" + search + "%";
+                criteria.andTitleLike(search);
+                long integer = questionMapper.countByExample(example);
+                return integer;
+            } else {
+                // 普通用户查询
+                QuestionExample example = new QuestionExample();
+                QuestionExample.Criteria criteria = example.createCriteria();
+                search = search.replace(' ', '%');
+                search = "%" + search + "%";
+                criteria.andTitleLike(search)
+                        .andExamineEqualTo(1)
+                        .andShieldEqualTo(0);
+                long integer = questionMapper.countByExample(example);
+                return integer;
+            }
+        } else {
+            // 根据标签搜索
+            if (userType != 0) {
+                // 管理员查询
+                QuestionExample example = new QuestionExample();
+                QuestionExample.Criteria criteria = example.createCriteria();
+                search = search.replace(' ', '%');
+                search = "%" + search + "%";
+                criteria.andTagLike(search);
+                long integer = questionMapper.countByExample(example);
+                return integer;
+            } else {
+                // 普通用户查询
+                QuestionExample example = new QuestionExample();
+                QuestionExample.Criteria criteria = example.createCriteria();
+                search = search.replace(' ', '%');
+                search = "%" + search + "%";
+                criteria.andTagLike(search)
+                        .andExamineEqualTo(1)
+                        .andShieldEqualTo(0);
+                long integer = questionMapper.countByExample(example);
+                return integer;
+            }
+        }
     }
 }

@@ -21,6 +21,8 @@ public class Question {
 
     private Integer shield;
 
+    private Integer examine;
+
     private String description;
 
     public Long getId() {
@@ -101,6 +103,14 @@ public class Question {
 
     public void setShield(Integer shield) {
         this.shield = shield;
+    }
+
+    public Integer getExamine() {
+        return examine;
+    }
+
+    public void setExamine(Integer examine) {
+        this.examine = examine;
     }
 
     public String getDescription() {

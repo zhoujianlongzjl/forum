@@ -19,6 +19,8 @@ public enum ResultCode implements IErrorCode {
     NOT_A_PICTURE(2009,"上传的不是图片,请上传图片!"),
     DELETE_PICTURE_SUCCEEDED(2010,"删除图片成功 "),
 
+    TAG_EXISTS(2011,"标签已存在"),
+
     REPLY_QUESTION(1,"回复了问题"),
     REPLY_COMMENT(2,"回复了评论");
 

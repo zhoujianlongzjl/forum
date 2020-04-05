@@ -1,6 +1,7 @@
 package com.qingfengzhuyue.forum.controller;
 
 import com.qingfengzhuyue.forum.model.Question;
+import com.qingfengzhuyue.forum.model.User;
 import com.qingfengzhuyue.forum.result.CommonResult;
 import com.qingfengzhuyue.forum.result.ResultCode;
 import com.qingfengzhuyue.forum.service.SearchService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -20,9 +22,15 @@ public class SearchController {
 
     @RequestMapping(value = "/api/searchCount", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public CommonResult searchCount(@RequestParam(name = "search",required = false,defaultValue = ".*") String search){
+    public CommonResult searchCount(@RequestParam(name = "search",required = false,defaultValue = ".*") String search,
+                                    HttpServletRequest request,
+                                    @RequestParam(name = "searchType",defaultValue = "0") Integer searchType){
 
-        Integer total = searchService.countBySearch(search);
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return CommonResult.unauthorized("");
+        }
+        Long total = searchService.countBySearch(search,user.getType(),searchType);
         if (total == 0) {
             return CommonResult.failed(ResultCode.QUESTION_NOT_FOUND);
         }
@@ -33,9 +41,14 @@ public class SearchController {
     @ResponseBody
     public CommonResult search( @RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum,
                                 @RequestParam(name = "pageSize",defaultValue = "10") Integer pageSize,
-                                @RequestParam(name = "search",required = false,defaultValue = ".*") String search){
-
-        List<Question> questionList = searchService.selectBySearch(search,pageNum,pageSize);
+                                @RequestParam(name = "search",required = false,defaultValue = ".*") String search,
+                                HttpServletRequest request,
+                                @RequestParam(name = "searchType",defaultValue = "0") Integer searchType){
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return CommonResult.unauthorized("");
+        }
+        List<Question> questionList = searchService.selectBySearch(search,pageNum,pageSize,user.getType(),searchType);
         return CommonResult.success(questionList);
     }
 }

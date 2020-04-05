@@ -12,6 +12,7 @@
     <result column="like_count" jdbcType="INTEGER" property="likeCount" />
     <result column="tag" jdbcType="VARCHAR" property="tag" />
     <result column="shield" jdbcType="INTEGER" property="shield" />
+    <result column="examine" jdbcType="INTEGER" property="examine" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qingfengzhuyue.forum.model.Question">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, title, gmt_create, gmt_modified, creator, comment_count, view_count, like_count, 
-    tag, shield
+    tag, shield, examine
   </sql>
   <sql id="Blob_Column_List">
     description
@@ -133,11 +134,13 @@
     insert into question (id, title, gmt_create, 
       gmt_modified, creator, comment_count, 
       view_count, like_count, tag, 
-      shield, description)
+      shield, examine, description
+      )
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=BIGINT}, 
       #{gmtModified,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, #{commentCount,jdbcType=INTEGER}, 
       #{viewCount,jdbcType=INTEGER}, #{likeCount,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, 
-      #{shield,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR})
+      #{shield,jdbcType=INTEGER}, #{examine,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.qingfengzhuyue.forum.model.Question">
     insert into question
@@ -171,6 +174,9 @@
       </if>
       <if test="shield != null">
         shield,
+      </if>
+      <if test="examine != null">
+        examine,
       </if>
       <if test="description != null">
         description,
@@ -206,6 +212,9 @@
       </if>
       <if test="shield != null">
         #{shield,jdbcType=INTEGER},
+      </if>
+      <if test="examine != null">
+        #{examine,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         #{description,jdbcType=LONGVARCHAR},
@@ -251,6 +260,9 @@
       <if test="record.shield != null">
         shield = #{record.shield,jdbcType=INTEGER},
       </if>
+      <if test="record.examine != null">
+        examine = #{record.examine,jdbcType=INTEGER},
+      </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=LONGVARCHAR},
       </if>
@@ -271,6 +283,7 @@
       like_count = #{record.likeCount,jdbcType=INTEGER},
       tag = #{record.tag,jdbcType=VARCHAR},
       shield = #{record.shield,jdbcType=INTEGER},
+      examine = #{record.examine,jdbcType=INTEGER},
       description = #{record.description,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -287,7 +300,8 @@
       view_count = #{record.viewCount,jdbcType=INTEGER},
       like_count = #{record.likeCount,jdbcType=INTEGER},
       tag = #{record.tag,jdbcType=VARCHAR},
-      shield = #{record.shield,jdbcType=INTEGER}
+      shield = #{record.shield,jdbcType=INTEGER},
+      examine = #{record.examine,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -322,6 +336,9 @@
       <if test="shield != null">
         shield = #{shield,jdbcType=INTEGER},
       </if>
+      <if test="examine != null">
+        examine = #{examine,jdbcType=INTEGER},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -339,6 +356,7 @@
       like_count = #{likeCount,jdbcType=INTEGER},
       tag = #{tag,jdbcType=VARCHAR},
       shield = #{shield,jdbcType=INTEGER},
+      examine = #{examine,jdbcType=INTEGER},
       description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -352,7 +370,8 @@
       view_count = #{viewCount,jdbcType=INTEGER},
       like_count = #{likeCount,jdbcType=INTEGER},
       tag = #{tag,jdbcType=VARCHAR},
-      shield = #{shield,jdbcType=INTEGER}
+      shield = #{shield,jdbcType=INTEGER},
+      examine = #{examine,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.qingfengzhuyue.forum.model.QuestionExample" resultMap="ResultMapWithBLOBs">
