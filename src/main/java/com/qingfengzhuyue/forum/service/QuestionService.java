@@ -61,7 +61,7 @@ public class QuestionService {
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andIdGreaterThanOrEqualTo(0L);
-            example.setOrderByClause("gmt_create desc");
+            example.setOrderByClause("gmt_modified desc");
             PageHelper.startPage(pageNum, pageSize);
             List<Question> questionList = questionMapper.selectByExample(example);
 
@@ -81,7 +81,7 @@ public class QuestionService {
                     .andIdGreaterThanOrEqualTo(0L)
                     .andShieldEqualTo(0)
                     .andExamineEqualTo(1);
-            example.setOrderByClause("gmt_create desc");
+            example.setOrderByClause("gmt_modified desc");
             PageHelper.startPage(pageNum, pageSize);
             List<Question> questionList = questionMapper.selectByExample(example);
 
@@ -121,11 +121,14 @@ public class QuestionService {
 
     public QuestionDTO findById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
-        User user = userMapper.selectByPrimaryKey(question.getCreator());
-        QuestionDTO questionDTO = new QuestionDTO();
-        BeanUtils.copyProperties(question, questionDTO);
-        questionDTO.setUser(user);
-        return questionDTO;
+        if (question != null){
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            questionDTO.setUser(user);
+            return questionDTO;
+        }
+        return null;
     }
     public Question edit(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
@@ -204,8 +207,10 @@ public class QuestionService {
     public List<QuestionDTO> findWait(Integer pageNum, Integer pageSize) {
         QuestionExample example = new QuestionExample();
         example.createCriteria()
-                .andCommentCountEqualTo(0);
-        example.setOrderByClause("gmt_create desc");
+                .andCommentCountEqualTo(0)
+                .andShieldEqualTo(0)
+                .andExamineEqualTo(1);
+        example.setOrderByClause("gmt_modified desc");
         PageHelper.startPage(pageNum,pageSize);
         List<Question> questionList = questionMapper.selectByExample(example);
 
@@ -223,7 +228,9 @@ public class QuestionService {
     public Long waitCount() {
         QuestionExample example = new QuestionExample();
         example.createCriteria()
-                .andCommentCountEqualTo(0);
+                .andCommentCountEqualTo(0)
+                .andShieldEqualTo(0)
+                .andExamineEqualTo(1);
         long total = questionMapper.countByExample(example);
         return total;
     }

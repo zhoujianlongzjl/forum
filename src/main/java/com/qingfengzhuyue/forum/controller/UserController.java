@@ -1,11 +1,13 @@
 package com.qingfengzhuyue.forum.controller;
 
+import com.qingfengzhuyue.forum.dto.ChangePasswordDTO;
 import com.qingfengzhuyue.forum.model.Question;
 import com.qingfengzhuyue.forum.model.User;
 import com.qingfengzhuyue.forum.result.CommonResult;
 import com.qingfengzhuyue.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +37,7 @@ public class UserController {
         if (user == null) {
             return CommonResult.unauthorized("");
         }
-        Long total = userService.countQuestion(id);
+        Long total = userService.countQuestion(id,user.getId());
 
         return CommonResult.success(total);
     }
@@ -61,7 +63,7 @@ public class UserController {
         if (user == null) {
             return CommonResult.unauthorized("");
         }
-        List<Question> questionList = userService.findQuestion(pageNum,pageSize,id);
+        List<Question> questionList = userService.findQuestion(pageNum,pageSize,id,user.getId());
 
         return CommonResult.success(questionList);
     }
@@ -89,6 +91,26 @@ public class UserController {
         User dbUser = userService.insertBio(frontUser);
 
         return CommonResult.success(dbUser);
+    }
+
+    @RequestMapping(value = "/api/user/changePassword", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public CommonResult changePassword(@RequestBody ChangePasswordDTO changePasswordDTO, HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return CommonResult.unauthorized("");
+        }
+        String md5OldPass = DigestUtils.md5DigestAsHex(changePasswordDTO.getOldPassword().getBytes());
+        changePasswordDTO.setOldPassword(md5OldPass);
+        User dbUser = userService.findByUserId(user.getId());
+        if (dbUser.getPassword().equals(changePasswordDTO.getOldPassword())){
+            String md5Pass = DigestUtils.md5DigestAsHex(changePasswordDTO.getNewPassword().getBytes());
+            changePasswordDTO.setNewPassword(md5Pass);
+            dbUser.setPassword(changePasswordDTO.getNewPassword());
+            userService.passwordUpdate(dbUser);
+            return CommonResult.success("修好密码成功！");
+        }
+        return CommonResult.failed("原密码错误");
     }
 
     @RequestMapping(value = "/api/admin/user/find", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")

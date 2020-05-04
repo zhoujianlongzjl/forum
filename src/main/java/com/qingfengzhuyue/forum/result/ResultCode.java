@@ -21,6 +21,14 @@ public enum ResultCode implements IErrorCode {
 
     TAG_EXISTS(2011,"标签已存在"),
 
+    WRONG_USER_NAME_OR_PASSWORD(2012,"用户名或密码错误！"),
+    USER_ALREADY_EXISTS(2013,"用户已存在！"),
+    LOGIN_SUCCESS(2014,"登录成功！"),
+    REGISTER_SUCCESS(2015,"注册成功！"),
+    NOT_YOUR_QUESTION(2016,"这不是你的问题哟！"),
+
+    NOT_YOUR_ADMIN(2017,"你不是管理员，没有权限进行该操作哟！"),
+
     REPLY_QUESTION(1,"回复了问题"),
     REPLY_COMMENT(2,"回复了评论");
 

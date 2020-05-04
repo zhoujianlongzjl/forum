@@ -31,6 +31,18 @@ public class UserService {
         UserExample userExample = new UserExample();
         userExample.createCriteria()
                 .andNameEqualTo(user.getName())
+                .andPasswordEqualTo(user.getPassword())
+                .andTypeEqualTo(user.getType());
+        List<User> users = userMapper.selectByExample(userExample);
+
+        return users;
+    }
+
+    public List<User> findUserName(User user) {
+
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andNameEqualTo(user.getName())
                 .andTypeEqualTo(user.getType());
         List<User> users = userMapper.selectByExample(userExample);
 
@@ -65,11 +77,18 @@ public class UserService {
         }
     }
 
-    public Long countQuestion(Long id) {
+    public Long countQuestion(Long id,Long userId) {
 
         QuestionExample example = new QuestionExample();
-        example.createCriteria()
-                .andCreatorEqualTo(id);
+        if (userId == id){
+            example.createCriteria()
+                    .andCreatorEqualTo(id);
+        } else {
+            example.createCriteria()
+                    .andCreatorEqualTo(id)
+                    .andShieldEqualTo(0)
+                    .andExamineEqualTo(1);
+        }
         long total = questionMapper.countByExample(example);
         return total;
     }
@@ -83,12 +102,21 @@ public class UserService {
         return total;
     }
 
-    public List<Question> findQuestion(Integer pageNum, Integer pageSize, Long id) {
+    public List<Question> findQuestion(Integer pageNum, Integer pageSize, Long id,Long userId) {
         QuestionExample example = new QuestionExample();
-        example.createCriteria()
-                .andCreatorEqualTo(id);
-        example.setOrderByClause("gmt_create desc");
-        PageHelper.startPage(pageNum, pageSize);
+        if (userId == id){
+            example.createCriteria()
+                    .andCreatorEqualTo(id);
+            example.setOrderByClause("gmt_create desc");
+            PageHelper.startPage(pageNum, pageSize);
+        } else {
+            example.createCriteria()
+                    .andCreatorEqualTo(id)
+                    .andShieldEqualTo(0)
+                    .andExamineEqualTo(1);
+            example.setOrderByClause("gmt_create desc");
+            PageHelper.startPage(pageNum, pageSize);
+        }
         List<Question> questionList = questionMapper.selectByExample(example);
 
         return questionList;
@@ -112,6 +140,10 @@ public class UserService {
                         break;
                     }
                 }
+                // 是否屏蔽，是否审核通过
+                if (question.getShield() != 0 || question.getExamine() != 1){
+                    repeat = true;
+                }
                 if (repeat == false) {
                     questionList.add(question);
                 }
@@ -124,6 +156,10 @@ public class UserService {
                         repeat = true;
                         break;
                     }
+                }
+                // 是否屏蔽，是否审核通过
+                if (question.getShield() != 0 || question.getExamine() != 1){
+                    repeat = true;
                 }
                 if (repeat == false) {
                     questionList.add(question);
@@ -172,5 +208,12 @@ public class UserService {
 
     public void delete(Long id) {
         userMapper.deleteByPrimaryKey(id);
+    }
+
+    public void passwordUpdate(User dbUser) {
+        UserExample example = new UserExample();
+        example.createCriteria()
+                .andIdEqualTo(dbUser.getId());
+        userMapper.updateByExampleSelective(dbUser, example);
     }
 }

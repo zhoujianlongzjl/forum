@@ -1,7 +1,6 @@
 package com.qingfengzhuyue.forum.service;
 
 import com.github.pagehelper.PageHelper;
-import com.qingfengzhuyue.forum.mapper.QuestionExtMapper;
 import com.qingfengzhuyue.forum.mapper.QuestionMapper;
 import com.qingfengzhuyue.forum.model.Question;
 import com.qingfengzhuyue.forum.model.QuestionExample;

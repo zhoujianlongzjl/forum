@@ -88,6 +88,6 @@ public class TagController {
             tagService.deleteTag(tagId);
             return CommonResult.success("");
         }
-        return CommonResult.failed("");
+        return CommonResult.failed(ResultCode.NOT_YOUR_ADMIN);
     }
 }

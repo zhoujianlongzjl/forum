@@ -23,9 +23,9 @@ public class TencentCOS {
     // 此处填写的存储桶名称
     private static final String bucketName = "qingfengzhuyue-1301070009";
     // secretId
-    private static final String secretId = "AKIDlLffT8ZfaFeokQO1NXXJpNuCG6qVaqAe";
+    private static final String secretId = "AKIDQaVeX93fbJkxua67JEsFLBPN4UdWqV1H";
     // secretKey
-    private static final String secretKey = "iIrLl5Relmh1HfzHh2e951rpclBUYLwI";
+    private static final String secretKey = "93C4YmjQqzsUq20QaT6VeXEengIdhkcg";
 
     // 1 初始化用户身份信息(secretId, secretKey，可在腾讯云后台中的API密钥管理中查看！
     private static COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);

@@ -31,7 +31,8 @@ public class QuestionController {
 
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return CommonResult.unauthorized("");
+            Long total = questionService.countQuestion(0);
+            return CommonResult.unauthorized(total);
         }
         Long total = questionService.countQuestion(user.getType());
 
@@ -54,7 +55,8 @@ public class QuestionController {
 
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return CommonResult.unauthorized("");
+            List<QuestionDTO> questionDTOList = questionService.list(pageNum, pageSize, 0);
+            return CommonResult.unauthorized(questionDTOList);
         }
         List<QuestionDTO> questionDTOList = questionService.list(pageNum, pageSize, user.getType());
 
@@ -133,6 +135,10 @@ public class QuestionController {
             return CommonResult.unauthorized("");
         }
         QuestionDTO questionDTO = questionService.findById(id);
+
+        if (questionDTO == null){
+            return CommonResult.failed(ResultCode.QUESTION_NOT_FOUND);
+        }
         //累加阅读数
         questionService.incView(id);
         return CommonResult.success(questionDTO);
@@ -171,7 +177,7 @@ public class QuestionController {
             questionService.shield(id, shield);
             return CommonResult.success("");
         }
-        return CommonResult.failed("");
+        return CommonResult.failed(ResultCode.NOT_YOUR_ADMIN);
     }
 
     /**
@@ -193,7 +199,7 @@ public class QuestionController {
             questionService.examine(id, examine);
             return CommonResult.success("");
         }
-        return CommonResult.failed("");
+        return CommonResult.failed(ResultCode.NOT_YOUR_ADMIN);
     }
 
     @RequestMapping(value = "/api/admin/findByExamine", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
@@ -209,7 +215,7 @@ public class QuestionController {
             List<QuestionDTO> questionDTOList = questionService.findByExamine(pageNum, pageSize);
             return CommonResult.success(questionDTOList);
         }
-        return CommonResult.failed("");
+        return CommonResult.failed(ResultCode.NOT_YOUR_ADMIN);
     }
 
     @RequestMapping(value = "/api/admin/q/delete", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
@@ -228,6 +234,6 @@ public class QuestionController {
             questionService.delete(id);
             return CommonResult.success("");
         }
-        return CommonResult.failed("");
+        return CommonResult.failed(ResultCode.NOT_YOUR_ADMIN);
     }
 }
