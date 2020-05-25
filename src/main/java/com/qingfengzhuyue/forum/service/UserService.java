@@ -8,6 +8,7 @@ import com.qingfengzhuyue.forum.model.*;
 import com.qingfengzhuyue.forum.result.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class UserService {
         return users;
     }
 
+    @Transactional
     public List<User> findUserName(User user) {
 
         UserExample userExample = new UserExample();
@@ -208,6 +210,14 @@ public class UserService {
 
     public void delete(Long id) {
         userMapper.deleteByPrimaryKey(id);
+        QuestionExample example = new QuestionExample();
+        example.createCriteria()
+                .andCreatorEqualTo(id);
+        questionMapper.deleteByExample(example);
+        CommentExample example1 = new CommentExample();
+        example1.createCriteria()
+                .andCommentatorEqualTo(id);
+        commentMapper.deleteByExample(example1);
     }
 
     public void passwordUpdate(User dbUser) {

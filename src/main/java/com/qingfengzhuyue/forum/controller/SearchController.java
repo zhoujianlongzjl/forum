@@ -20,6 +20,13 @@ public class SearchController {
     @Autowired
     private SearchService searchService;
 
+    /**
+     * 查询搜索问题数
+     * @param search
+     * @param request
+     * @param searchType
+     * @return
+     */
     @RequestMapping(value = "/api/searchCount", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult searchCount(@RequestParam(name = "search",required = false,defaultValue = ".*") String search,
@@ -37,6 +44,15 @@ public class SearchController {
         return CommonResult.success(total);
     }
 
+    /**
+     * 搜索问题
+     * @param pageNum
+     * @param pageSize
+     * @param search
+     * @param request
+     * @param searchType
+     * @return
+     */
     @RequestMapping(value = "/api/search", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult search( @RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum,

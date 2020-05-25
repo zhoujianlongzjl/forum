@@ -21,6 +21,13 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 登录
+     * @param user
+     * @param request
+     * @param response
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/login", method = RequestMethod.POST,  produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -45,6 +52,13 @@ public class LoginController {
         }
     }
 
+    /**
+     * 注册
+     * @param user
+     * @param request
+     * @param response
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/logon", method = RequestMethod.POST,  produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -70,6 +84,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * 管理员注册用户
+     * @param user
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/admin/logon", method = RequestMethod.POST,  produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -86,6 +105,13 @@ public class LoginController {
         }
 
     }
+
+    /**
+     * 注销登录
+     * @param request
+     * @param response
+     * @return
+     */
     @CrossOrigin
     @GetMapping("/api/logout")
     @ResponseBody

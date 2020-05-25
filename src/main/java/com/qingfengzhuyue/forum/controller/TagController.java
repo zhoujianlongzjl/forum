@@ -62,6 +62,12 @@ public class TagController {
         return CommonResult.success(tags);
     }
 
+    /**
+     * 添加标签
+     * @param tag
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/api/admin/addTag", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult addTag(@RequestBody Tag tag,HttpServletRequest request){
@@ -77,6 +83,12 @@ public class TagController {
         return CommonResult.success("");
     }
 
+    /**
+     * 删除标签
+     * @param tagId
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/api/admin/deleteTag", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult deleteTag(@RequestParam("tagId") Long tagId, HttpServletRequest request){

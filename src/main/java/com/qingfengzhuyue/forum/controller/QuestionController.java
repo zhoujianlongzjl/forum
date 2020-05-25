@@ -126,6 +126,12 @@ public class QuestionController {
     }
 
 
+    /**
+     * 问题详情
+     * @param id
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/q/{id}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -144,7 +150,13 @@ public class QuestionController {
         return CommonResult.success(questionDTO);
     }
 
-    //点赞
+    /**
+     * 点赞
+     * @param id
+     * @param liked
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/q/{id}/like", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -202,6 +214,13 @@ public class QuestionController {
         return CommonResult.failed(ResultCode.NOT_YOUR_ADMIN);
     }
 
+    /**
+     * 管理员查询所有问题
+     * @param pageNum
+     * @param pageSize
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/api/admin/findByExamine", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult findByExamine(@RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
@@ -218,6 +237,12 @@ public class QuestionController {
         return CommonResult.failed(ResultCode.NOT_YOUR_ADMIN);
     }
 
+    /**
+     *  删除问题
+     * @param id
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/api/admin/q/delete", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult delete(@RequestParam("id") Long id, HttpServletRequest request) {
@@ -225,10 +250,12 @@ public class QuestionController {
         if (user == null) {
             return CommonResult.unauthorized("");
         }
+        // 管理员删除
         if (user.getType() != 0) {
             questionService.delete(id);
             return CommonResult.success("");
         }
+        // 发布者本人删除
         QuestionDTO questionDTO = questionService.findById(id);
         if (questionDTO.getCreator() == user.getId()) {
             questionService.delete(id);

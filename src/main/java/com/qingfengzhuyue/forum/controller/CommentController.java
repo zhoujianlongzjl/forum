@@ -19,6 +19,13 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    /**
+     * 初始化评论
+     * @param id
+     * @param type
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/comment", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -33,6 +40,13 @@ public class CommentController {
 
         return commonResult;
     }
+
+    /**
+     * 创建评论
+     * @param commentCreateDTO
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/comment", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody

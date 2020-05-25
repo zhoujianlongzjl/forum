@@ -21,6 +21,10 @@ public class PublishController {
     @Autowired
     private QuestionService questionService;
 
+    /**
+     * 获取缓存标签
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/publish", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -28,6 +32,10 @@ public class PublishController {
         return CommonResult.success(TagCache.get());
     }
 
+    /**
+     * 获取数据库里所有标签
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/publish/getTags", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -36,6 +44,12 @@ public class PublishController {
         return CommonResult.success(tags);
     }
 
+    /**
+     * 发布问题
+     * @param question
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/publish", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -48,6 +62,13 @@ public class PublishController {
         questionService.createOrUpdate(question);
         return CommonResult.success(ResultCode.SUCCESS.getMessage());
     }
+
+    /**
+     * 编辑问题
+     * @param id
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/api/publish/{id}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody

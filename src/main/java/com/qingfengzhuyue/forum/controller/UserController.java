@@ -53,6 +53,14 @@ public class UserController {
         return CommonResult.success(total);
     }
 
+    /**
+     * 查询我的问题
+     * @param pageNum
+     * @param pageSize
+     * @param id
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/api/user/question", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult findQuestion(@RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum,
@@ -67,6 +75,15 @@ public class UserController {
 
         return CommonResult.success(questionList);
     }
+
+    /**
+     * 查询我的评论
+     * @param pageNum
+     * @param pageSize
+     * @param id
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/api/user/comment", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult findComment(@RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum,
@@ -81,6 +98,13 @@ public class UserController {
 
         return CommonResult.success(questionList);
     }
+
+    /**
+     * 添加简介
+     * @param frontUser
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/api/user/bio", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult bio(@RequestBody User frontUser, HttpServletRequest request){
@@ -93,6 +117,12 @@ public class UserController {
         return CommonResult.success(dbUser);
     }
 
+    /**
+     * 修改密码
+     * @param changePasswordDTO
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/api/user/changePassword", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult changePassword(@RequestBody ChangePasswordDTO changePasswordDTO, HttpServletRequest request){
@@ -113,6 +143,11 @@ public class UserController {
         return CommonResult.failed("原密码错误");
     }
 
+    /**
+     * 管理员查询用户
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/api/admin/user/find", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult findNotId(HttpServletRequest request){
@@ -125,6 +160,12 @@ public class UserController {
         return CommonResult.success(dbUser);
     }
 
+    /**
+     * 管理员删除用户
+     * @param id
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/api/admin/user/delete", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public CommonResult delete(@RequestParam("id") Long id, HttpServletRequest request){
